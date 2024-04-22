@@ -15,4 +15,6 @@ public interface IProfessionalService {
     Professional update(Professional professional);
 
     void deleteById(Long id);
+
+    List<Professional> findByParams(String q, List<String> fields);
 }

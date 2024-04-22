@@ -15,4 +15,6 @@ public interface IContactService {
     Contact update(Contact contact);
 
     void deleteById(Long id);
+
+    List<Contact> findByParams(String q, List<String> fields);
 }

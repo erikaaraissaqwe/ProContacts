@@ -199,7 +199,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+							"raw": "{\n    \"professionalPosition\": \"DEV\",\n    \"dateOfBirth\": \"1990-01-01\",\n    \"name\": \"Maria Joaquina\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -288,6 +288,29 @@
 						},
 						"url": "http://localhost:8080/api/v1/profissionais/4",
 						"description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profissionais com contatos",
+			"item": [
+				{
+					"name": "Cria profissional com Contatos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"professional\": {\r\n        \"name\": \"João Silva\",\r\n        \"professionalPosition\": \"Software Developer\",\r\n        \"dateOfBirth\": \"1990-05-15\"\r\n    },\r\n    \"contacts\": [\r\n        {\r\n            \"contact\": \"joao@example.com\",\r\n            \"contactType\": \"EMAIL\"\r\n        },\r\n        {\r\n            \"contact\": \"123456789\",\r\n            \"contactType\": \"PHONE\"\r\n        }\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/v1/profissionalContatos"
 					},
 					"response": []
 				}

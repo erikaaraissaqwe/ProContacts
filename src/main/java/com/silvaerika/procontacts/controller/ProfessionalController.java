@@ -16,9 +16,15 @@ public class ProfessionalController {
     @Autowired
     private IProfessionalService professionalService;
 
-    @GetMapping
+    @GetMapping("/buscaTodos")
     public ResponseEntity<List<Professional>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(professionalService.findAll());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Professional>> findByParams(@RequestParam(required = false) String q,
+                                                      @RequestParam(required = false) List<String> fields){
+        return ResponseEntity.status(HttpStatus.OK).body(professionalService.findByParams(q, fields));
     }
 
     @GetMapping("/{id}")
@@ -41,4 +47,7 @@ public class ProfessionalController {
         professionalService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+
+
 }

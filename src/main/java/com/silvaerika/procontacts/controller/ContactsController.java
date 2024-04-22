@@ -16,9 +16,15 @@ public class ContactsController {
     @Autowired
     private IContactService contactService;
 
-    @GetMapping
+    @GetMapping("/buscaTodos")
     public ResponseEntity<List<Contact>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(contactService.findAll());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Contact>> findByParams(@RequestParam(required = false) String q,
+                                                      @RequestParam(required = false) List<String> fields){
+        return ResponseEntity.status(HttpStatus.OK).body(contactService.findByParams(q, fields));
     }
 
     @GetMapping("/{id}")
