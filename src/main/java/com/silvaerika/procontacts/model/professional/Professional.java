@@ -1,12 +1,9 @@
 package com.silvaerika.procontacts.model.professional;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.silvaerika.procontacts.model.contacts.Contact;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity

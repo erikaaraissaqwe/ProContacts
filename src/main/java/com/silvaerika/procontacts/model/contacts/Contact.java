@@ -4,9 +4,7 @@ import com.silvaerika.procontacts.model.professional.Professional;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 @Data
 @Entity

@@ -1,5 +1,8 @@
 package com.silvaerika.procontacts.model.contacts;
 
+import lombok.Getter;
+
+@Getter
 public enum ContactType {
     LANDLINE("Fixo"),
     HOME("Casa"),
@@ -10,9 +13,5 @@ public enum ContactType {
 
     ContactType(String value) {
         this.value = value;
-    }
-
-    public String getValue(){
-        return this.value;
     }
 }

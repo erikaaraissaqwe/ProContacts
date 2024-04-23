@@ -1,5 +1,8 @@
 package com.silvaerika.procontacts.model.professional;
 
+import lombok.Getter;
+
+@Getter
 public enum ProfessionalPosition {
     DEV("Desenvolvedor"),
     DESIGNER("Designer"),
@@ -10,9 +13,5 @@ public enum ProfessionalPosition {
 
     ProfessionalPosition(String value) {
         this.value = value;
-    }
-
-    public String getValue(){
-        return this.value;
     }
 }
