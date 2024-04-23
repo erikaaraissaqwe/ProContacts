@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "997fdc0f-73f8-4f4f-bad4-aac28a8486ac",
 		"name": "Pro Contacts",
-		"description": "# Documentação da API para Controle de Cadastro de Profissionais e Contatos\n\nEsta API foi desenvolvida em Java Spring Boot e utiliza PostgreSQL como banco de dados. Este documento fornece detalhes sobre os endpoints disponíveis, os parâmetros necessários e os exemplos de resposta para cada endpoint.\n\n## Endpoints\n\nA API possui os seguintes endpoints:\n\n### Contatos\n\n- Retorna uma lista de todos os contatos cadastrados.\n    \n- Retorna os detalhes do contato com o ID especificado.\n    \n- Cria um novo contato com os dados fornecidos.\n    \n- Atualiza os dados do contato com o ID especificado.\n    \n- Exclui o contato com o ID especificado.\n    \n\n### Profissionais\n\n- Retorna uma lista de todos os profissionais cadastrados.\n    \n- Retorna os detalhes do profissional com o ID especificado.\n    \n- Cria um novo profissional com os dados fornecidos.\n    \n- Atualiza os dados do profissional com o ID especificado.\n    \n- Exclui o profissional com o ID especificado.",
+		"description": "Esta coleção Postman disponibiliza endpoints para gerenciar contatos e profissionais na API ProContacts.\n\n#### Endpoints de Contatos\n\n##### Obter Todos os Contatos\n\n- **Descrição:** Recupera todos os contatos.\n    \n- **Endpoint:** `/api/v1/contatos/all`\n    \n- **Método:** GET\n    \n\n##### Encontrar Contatos por Parâmetros\n\n- **Descrição:** Busca contatos por parâmetros especificados.\n    \n- **Endpoint:** `/api/v1/contatos`\n    \n- **Método:** GET\n    \n- **Parâmetros de Consulta:**\n    \n    - `q` (opcional): String para buscar em qualquer valor do atributo.\n        \n    - `fields` (opcional): Campos a retornar.\n        \n\n##### Encontrar Contato por ID\n\n- **Descrição:** Obtém um contato pelo seu ID.\n    \n- **Endpoint:** `/api/v1/contatos/{id}`\n    \n- **Método:** GET\n    \n- **Parâmetro:**\n    \n    - `id`: ID do contato.\n        \n\n##### Criar Contato\n\n- **Descrição:** Cria um novo contato.\n    \n- **Endpoint:** `/api/v1/contatos`\n    \n- **Método:** POST\n    \n- **Body:** Objeto de Contato.\n    \n\n##### Atualizar Contato\n\n- **Descrição:** Atualiza um contato existente.\n    \n- **Endpoint:** `/api/v1/contatos`\n    \n- **Método:** PUT\n    \n- **Body:** Objeto de Contato.\n    \n\n##### Excluir Contato por ID\n\n- **Descrição:** Exclui um contato pelo seu ID.\n    \n- **Endpoint:** `/api/v1/contatos/{id}`\n    \n- **Método:** DELETE\n    \n- **Parâmetro:**\n    \n    - `id`: ID do contato.\n        \n\n---\n\n#### Endpoints de Contatos Profissionais\n\n##### Salvar Profissional com Contatos\n\n- **Descrição:** Salva um profissional juntamente com seus contatos.\n    \n- **Endpoint:** `/api/v1/profissionalContatos`\n    \n- **Método:** POST\n    \n- **Body:** Objeto ProfessionalContacts.\n    \n\n---\n\n#### Endpoints de Profissionais\n\n##### Obter Todos os Profissionais\n\n- **Descrição:** Recupera todos os profissionais.\n    \n- **Endpoint:** `/api/v1/profissionais/all`\n    \n- **Método:** GET\n    \n\n##### Encontrar Profissionais por Parâmetros\n\n- **Descrição:** Busca profissionais por parâmetros especificados.\n    \n- **Endpoint:** `/api/v1/profissionais`\n    \n- **Método:** GET\n    \n- **Parâmetros de Consulta:**\n    \n    - `q` (opcional): String para buscar em qualquer valor do atributo.\n        \n    - `fields` (opcional): Campos a retornar.\n        \n\n##### Encontrar Profissional por ID\n\n- **Descrição:** Obtém um profissional pelo seu ID.\n    \n- **Endpoint:** `/api/v1/profissionais/{id}`\n    \n- **Método:** GET\n    \n- **Parâmetro:**\n    \n    - `id`: ID do profissional.\n        \n\n##### Criar Profissional\n\n- **Descrição:** Cria um novo profissional.\n    \n- **Endpoint:** `/api/v1/profissionais`\n    \n- **Método:** POST\n    \n- **Body:** Objeto de Profissional.\n    \n\n##### Atualizar Profissional\n\n- **Descrição:** Atualiza um profissional existente.\n    \n- **Endpoint:** `/api/v1/profissionais`\n    \n- **Método:** PUT\n    \n- **Body:** Objeto de Profissional.\n    \n\n##### Excluir Profissional por ID\n\n- **Descrição:** Exclui um profissional pelo seu ID.\n    \n- **Endpoint:** `/api/v1/profissionais/{id}`\n    \n- **Método:** DELETE\n    \n- **Parâmetro:**\n    \n    - `id`: ID do profissional.\n        \n\n---\n\nEstes endpoints permitem o gerenciamento abrangente de contatos e profissionais na API ProContacts.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "16222899"
 	},
@@ -39,6 +39,14 @@
 						"method": "GET",
 						"header": [],
 						"url": "http://localhost:8080/api/v1/contatos/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Contatos filtrados",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				},
@@ -175,6 +183,27 @@
 						"method": "GET",
 						"header": [],
 						"url": "http://localhost:8080/api/v1/profissionais/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Profissionais filtrados",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "?q=\"Erika&fields=createdDate, id",
+							"query": [
+								{
+									"key": "q",
+									"value": "\"Erika"
+								},
+								{
+									"key": "fields",
+									"value": "createdDate, id"
+								}
+							]
+						}
 					},
 					"response": []
 				},
