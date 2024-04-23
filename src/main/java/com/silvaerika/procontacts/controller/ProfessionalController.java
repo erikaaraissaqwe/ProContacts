@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,8 +23,8 @@ public class ProfessionalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Professional>> findByParams(@RequestParam(required = false) String q,
-                                                      @RequestParam(required = false) List<String> fields){
+    public ResponseEntity<List<Map<String, Object>>> findByParams(@RequestParam(required = false) String q,
+                                                                  @RequestParam(required = false) List<String> fields){
         return ResponseEntity.status(HttpStatus.OK).body(professionalService.findByParams(q, fields));
     }
 

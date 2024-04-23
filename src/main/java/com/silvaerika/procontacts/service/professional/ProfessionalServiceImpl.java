@@ -1,13 +1,17 @@
 package com.silvaerika.procontacts.service.professional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silvaerika.procontacts.model.professional.Professional;
 import com.silvaerika.procontacts.repository.professional.IProfessionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.silvaerika.procontacts.service.utils.Utils.findByFields;
 
 @Service
 public class ProfessionalServiceImpl implements IProfessionalService {
@@ -39,35 +43,27 @@ public class ProfessionalServiceImpl implements IProfessionalService {
         professionalRepository.deleteById(id);
     }
 
-    public List<Professional> findByParams(String q, List<String> fields) {
-        List<Professional> profissionais;
-        if (q != null && !q.isEmpty()) {
-            profissionais = professionalRepository.findByNomeContainingIgnoreCase(q);
-        } else {
-            profissionais = professionalRepository.findAll();
-        }
+    @Override
+    public List<Map<String, Object>> findByParams(String q, List<String> fields) {
+        List<Professional> professionals = findProfessionalByAttribute(q);
 
-        if (fields != null && !fields.isEmpty()) {
-            // Se os campos a serem retornados forem especificados, filtramos os resultados
-            List<Professional> filteredProfissionais = new ArrayList<>();
-            for (Professional profissional : profissionais) {
-                Professional filteredProfissional = new Professional();
-                for (String field : fields) {
-                    switch (field) {
-                        case "nome":
-                            filteredProfissional.setName(profissional.getName());
-                            break;
-                        case "cargo":
-                            filteredProfissional.setProfessionalPosition(profissional.getProfessionalPosition());
-                            break;
-                    }
-                }
-                filteredProfissionais.add(filteredProfissional);
-            }
-            return filteredProfissionais;
-        } else {
-            return profissionais;
-        }
+        if (fields == null || fields.isEmpty())
+            return findByFields(professionals, null);
+
+        return findByFields(professionals, fields);
+    }
+
+    public List<Professional> findProfessionalByAttribute(String value) {
+        List<Professional> allProfessional = professionalRepository.findAll();
+
+        if(value == null || value.isEmpty())
+            return allProfessional;
+
+        return allProfessional.stream()
+                .filter(professional ->
+                        professional.getName().contains(value) ||
+                                professional.getProfessionalPosition().getValue().contains(value))
+                .collect(Collectors.toList());
     }
 
 }

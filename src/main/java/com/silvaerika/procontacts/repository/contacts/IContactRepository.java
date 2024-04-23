@@ -7,8 +7,4 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface IContactRepository extends JpaRepository<Contact, Long> {
-
-    @Query("SELECT p FROM Contact p WHERE LOWER(p.contact) LIKE LOWER(CONCAT('%', :nome, '%'))")
-    List<Contact> findByNomeContainingIgnoreCase(@Param("nome") String nome);
-}
+public interface IContactRepository extends JpaRepository<Contact, Long> { }

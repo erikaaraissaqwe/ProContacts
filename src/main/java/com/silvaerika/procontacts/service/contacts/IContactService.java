@@ -3,6 +3,7 @@ package com.silvaerika.procontacts.service.contacts;
 import com.silvaerika.procontacts.model.contacts.Contact;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface IContactService {
@@ -16,5 +17,5 @@ public interface IContactService {
 
     void deleteById(Long id);
 
-    List<Contact> findByParams(String q, List<String> fields);
+    List<Map<String, Object>> findByParams(String q, List<String> fields);
 }
