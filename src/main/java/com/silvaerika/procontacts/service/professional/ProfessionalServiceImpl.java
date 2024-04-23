@@ -1,6 +1,5 @@
 package com.silvaerika.procontacts.service.professional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.silvaerika.procontacts.model.professional.Professional;
 import com.silvaerika.procontacts.repository.professional.IProfessionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;

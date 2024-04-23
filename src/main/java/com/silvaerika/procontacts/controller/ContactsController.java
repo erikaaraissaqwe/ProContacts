@@ -2,6 +2,10 @@ package com.silvaerika.procontacts.controller;
 
 import com.silvaerika.procontacts.model.contacts.Contact;
 import com.silvaerika.procontacts.service.contacts.IContactService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,35 +21,62 @@ public class ContactsController {
     @Autowired
     private IContactService contactService;
 
+    @Operation(summary = "Obter todos os contatos")
     @GetMapping("/all")
     public ResponseEntity<List<Contact>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(contactService.findAll());
     }
 
+    @Operation(summary = "Buscar contatos por parâmetros")
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> findByParams(@RequestParam(required = false) String q,
-                                                                  @RequestParam(required = false) List<String> fields){
+    public ResponseEntity<List<Map<String, Object>>> findByParams(
+            @Parameter(description = "String para buscar em qualquer atributo esse valor") @RequestParam(required = false) String q,
+            @Parameter(description = "Campos selecionados para retornar") @RequestParam(required = false) List<String> fields){
         return ResponseEntity.status(HttpStatus.OK).body(contactService.findByParams(q, fields));
     }
 
+    @Operation(summary = "Buscar contato por ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Contact>> findById(@PathVariable Long id){
+    public ResponseEntity<Optional<Contact>> findById(
+            @Parameter(description = "ID do contato", required = true) @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(contactService.findById(id));
     }
 
+    @Operation(summary = "Criar um novo contato",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(schema = @Schema(implementation = Contact.class))
+            ))
     @PostMapping
     public ResponseEntity<Contact> create(@RequestBody Contact contact){
-        return ResponseEntity.status(HttpStatus.CREATED).body(contactService.save(contact));
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(contactService.save(contact));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
+    @Operation(summary = "Atualizar um contato existente",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(schema = @Schema(implementation = Contact.class))
+            ))
     @PutMapping
     public ResponseEntity<Contact> update(@RequestBody Contact contact){
-        return ResponseEntity.status(HttpStatus.OK).body(contactService.update(contact));
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(contactService.update(contact));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
+    @Operation(summary = "Excluir um contato por ID")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        contactService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<?> delete(
+            @Parameter(description = "ID do contato", required = true) @PathVariable Long id){
+        try {
+            contactService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Contato deletado com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Um erro ocorreu ao deletar contato");
+        }
     }
 }

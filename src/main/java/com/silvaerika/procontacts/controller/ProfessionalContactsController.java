@@ -5,6 +5,9 @@ import com.silvaerika.procontacts.model.professional.Professional;
 import com.silvaerika.procontacts.model.professionalContacts.ProfessionalContacts;
 import com.silvaerika.procontacts.service.contacts.IContactService;
 import com.silvaerika.procontacts.service.professional.IProfessionalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,10 @@ public class ProfessionalContactsController {
 
     @Autowired
     private IProfessionalService professionalService;
+    @Operation(summary = "Salvar profissional com contatos",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(schema = @Schema(implementation = ProfessionalContacts.class))
+            ))
     @PostMapping
     public ResponseEntity<String> saveProfessionalWithContacts(@RequestBody ProfessionalContacts professionalContacts) {
         try {
@@ -33,9 +40,9 @@ public class ProfessionalContactsController {
                 contactService.save(contact);
             }
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Professional and Contacts saved successfully!");
+            return ResponseEntity.status(HttpStatus.CREATED).body("Profissional e contatos salvos com sucesso");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while saving Professional and Contacts.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Um erro ocorreu ao salvar o profissional/contatos");
         }
     }
 }

@@ -2,6 +2,10 @@ package com.silvaerika.procontacts.controller;
 
 import com.silvaerika.procontacts.model.professional.Professional;
 import com.silvaerika.procontacts.service.professional.IProfessionalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,38 +21,62 @@ public class ProfessionalController {
     @Autowired
     private IProfessionalService professionalService;
 
-    @GetMapping("/buscaTodos")
+    @Operation(summary = "Obter todos os profissionais")
+    @GetMapping("/all")
     public ResponseEntity<List<Professional>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(professionalService.findAll());
     }
 
+    @Operation(summary = "Buscar profissionais por parâmetros")
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> findByParams(@RequestParam(required = false) String q,
-                                                                  @RequestParam(required = false) List<String> fields){
+    public ResponseEntity<List<Map<String, Object>>> findByParams(
+            @Parameter(description = "String para buscar em qualquer atributo esse valor") @RequestParam(required = false) String q,
+            @Parameter(description = "Campos selecionados para retornar") @RequestParam(required = false) List<String> fields){
         return ResponseEntity.status(HttpStatus.OK).body(professionalService.findByParams(q, fields));
     }
 
+    @Operation(summary = "Buscar profissional por ID")
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Professional>> findById(@PathVariable Long id){
+    public ResponseEntity<Optional<Professional>> findById(
+            @Parameter(description = "ID do profissional", required = true) @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(professionalService.findById(id));
     }
 
+    @Operation(summary = "Criar um novo profissional",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(schema = @Schema(implementation = Professional.class))
+            ))
     @PostMapping
     public ResponseEntity<Professional> create(@RequestBody Professional professional){
-        return ResponseEntity.status(HttpStatus.CREATED).body(professionalService.save(professional));
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(professionalService.save(professional));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
+    @Operation(summary = "Atualizar um profissional existente",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(schema = @Schema(implementation = Professional.class))
+            ))
     @PutMapping
     public ResponseEntity<Professional> update(@RequestBody Professional professional){
-        return ResponseEntity.status(HttpStatus.OK).body(professionalService.update(professional));
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(professionalService.update(professional));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
+    @Operation(summary = "Excluir um profissional por ID")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
-        professionalService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<?> delete(
+            @Parameter(description = "ID do profissional", required = true) @PathVariable Long id){
+        try {
+            professionalService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Profissional deletado com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Um erro ocorreu ao deletar profissional");
+        }
     }
-
-
-
 }
