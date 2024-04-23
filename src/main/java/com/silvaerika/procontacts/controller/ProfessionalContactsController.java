@@ -27,6 +27,7 @@ public class ProfessionalContactsController {
     private IProfessionalService professionalService;
     @Operation(summary = "Salvar profissional com contatos",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
                     content = @Content(schema = @Schema(implementation = ProfessionalContacts.class))
             ))
     @PostMapping

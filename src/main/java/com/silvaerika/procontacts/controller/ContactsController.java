@@ -29,10 +29,12 @@ public class ContactsController {
 
     @Operation(summary = "Buscar contatos por parâmetros")
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> findByParams(
-            @Parameter(description = "String para buscar em qualquer atributo esse valor") @RequestParam(required = false) String q,
-            @Parameter(description = "Campos selecionados para retornar") @RequestParam(required = false) List<String> fields){
-        return ResponseEntity.status(HttpStatus.OK).body(contactService.findByParams(q, fields));
+    public ResponseEntity<List<Map<String, Object>>> findContactsByCriteria(
+            @Parameter(description = "Texto para busca genérica nos atributos de contato e tipo do contato")
+            @RequestParam(required = false) String searchQuery,
+            @Parameter(description = "Lista de campos específicos a serem retornados no resultado")
+            @RequestParam(required = false) List<String> selectedFields){
+        return ResponseEntity.status(HttpStatus.OK).body(contactService.findByParams(searchQuery, selectedFields));
     }
 
     @Operation(summary = "Buscar contato por ID")
@@ -59,9 +61,10 @@ public class ContactsController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(schema = @Schema(implementation = Contact.class))
             ))
-    @PutMapping
-    public ResponseEntity<?> update(@RequestBody Contact contact){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Contact contact){
         try {
+            contact.setId(id);
             return ResponseEntity.status(HttpStatus.OK).body(contactService.update(contact));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

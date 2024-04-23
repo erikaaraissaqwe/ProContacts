@@ -29,10 +29,12 @@ public class ProfessionalController {
 
     @Operation(summary = "Buscar profissionais por parâmetros")
     @GetMapping
-    public ResponseEntity<List<Map<String, Object>>> findByParams(
-            @Parameter(description = "String para buscar em qualquer atributo esse valor") @RequestParam(required = false) String q,
-            @Parameter(description = "Campos selecionados para retornar") @RequestParam(required = false) List<String> fields){
-        return ResponseEntity.status(HttpStatus.OK).body(professionalService.findByParams(q, fields));
+    public ResponseEntity<List<Map<String, Object>>> findProfessionalsByCriteria(
+            @Parameter(description = "Texto para busca genérica nos atributos de nome e cargo")
+            @RequestParam(required = false) String searchQuery,
+            @Parameter(description = "Lista de campos específicos a serem retornados no resultado")
+            @RequestParam(required = false) List<String> selectedFields){
+        return ResponseEntity.status(HttpStatus.OK).body(professionalService.findByParams(searchQuery, selectedFields));
     }
 
     @Operation(summary = "Buscar profissional por ID")
@@ -59,9 +61,10 @@ public class ProfessionalController {
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     content = @Content(schema = @Schema(implementation = Professional.class))
             ))
-    @PutMapping
-    public ResponseEntity<?> update(@RequestBody Professional professional){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Professional professional){
         try {
+            professional.setId(id);
             return ResponseEntity.status(HttpStatus.OK).body(professionalService.update(professional));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
