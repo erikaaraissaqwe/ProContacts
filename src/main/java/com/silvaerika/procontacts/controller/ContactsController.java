@@ -47,11 +47,11 @@ public class ContactsController {
                     content = @Content(schema = @Schema(implementation = Contact.class))
             ))
     @PostMapping
-    public ResponseEntity<Contact> create(@RequestBody Contact contact){
+    public ResponseEntity<?> create(@RequestBody Contact contact){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(contactService.save(contact));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -60,11 +60,11 @@ public class ContactsController {
                     content = @Content(schema = @Schema(implementation = Contact.class))
             ))
     @PutMapping
-    public ResponseEntity<Contact> update(@RequestBody Contact contact){
+    public ResponseEntity<?> update(@RequestBody Contact contact){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(contactService.update(contact));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

@@ -47,11 +47,11 @@ public class ProfessionalController {
                     content = @Content(schema = @Schema(implementation = Professional.class))
             ))
     @PostMapping
-    public ResponseEntity<Professional> create(@RequestBody Professional professional){
+    public ResponseEntity<?> create(@RequestBody Professional professional){
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(professionalService.save(professional));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -60,11 +60,11 @@ public class ProfessionalController {
                     content = @Content(schema = @Schema(implementation = Professional.class))
             ))
     @PutMapping
-    public ResponseEntity<Professional> update(@RequestBody Professional professional){
+    public ResponseEntity<?> update(@RequestBody Professional professional){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(professionalService.update(professional));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
